@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose"); // ← ADD THIS LINE!
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
@@ -40,4 +39,5 @@ require("./app/routes/turorial.routes")(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`); // ← FIXED: Was console.log` (backtick)
+  // ← FIXED: Was console.log` (backtick)
 });
