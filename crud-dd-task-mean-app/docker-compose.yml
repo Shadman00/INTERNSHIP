@@ -30,11 +30,14 @@ services:
     environment:
       - MONGODB_URI=mongodb://admin:password123@mongodb:27017/meandb?authSource=admin
       - PORT=8080
-      - NODE_ENV=production
+      - NODE_ENV=development
     depends_on:
       - mongodb
     networks:
       - mean-network
+    volumes:
+      - ./backend:/app # Mount local backend files
+    command: nodemon --legacy-watch server.js # watch mode
 
   # ============ Frontend ============
   frontend:
@@ -44,11 +47,14 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - "80:80"
+      - "4200:4200" # Angular dev server
     depends_on:
       - backend
     networks:
       - mean-network
+    volumes:
+      - ./frontend:/app # Mount local frontend files
+    command: ng serve --host 0.0.0.0 --poll 2000 # watch mode
 
 volumes:
   mongodb_data:
