@@ -1,18 +1,16 @@
+# Stage 1: Build Angular app
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Install Angular CLI globally
+# Install Angular CLI globally (optional)
 RUN npm install -g @angular/cli
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
-
-# Copy all source code
 COPY . .
 
-# Build Angular app in production mode
-RUN ng build --prod
+# Build Angular app in production mode (new syntax)
+RUN ng build --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
