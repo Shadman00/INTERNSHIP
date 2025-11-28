@@ -3,7 +3,9 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --production
+
+# Use npm ci --omit=dev instead of npm install --production
+RUN npm ci --omit=dev
 
 COPY . .
 

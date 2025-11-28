@@ -1,9 +1,8 @@
 version: "3.8"
 
 services:
-  # ============ MongoDB Database ============
   mongodb:
-    image: mongo:latest
+    image: mongo:4.4
     container_name: mongodb
     restart: always
     ports:
@@ -16,7 +15,6 @@ services:
     networks:
       - mean-network
 
-  # ============ Backend API ============
   backend:
     build:
       context: ./backend
@@ -26,15 +24,14 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - MONGO_URI=mongodb://admin:password123@mongodb:27017/meandb?authSource=admin
-      - PORT=5000
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/meandb?authSource=admin
+      - PORT=8080
       - NODE_ENV=production
     depends_on:
       - mongodb
     networks:
       - mean-network
 
-  # ============ Frontend (Angular + Nginx) ============
   frontend:
     build:
       context: ./frontend
@@ -48,11 +45,9 @@ services:
     networks:
       - mean-network
 
-# ============ Named Volume for MongoDB ============
 volumes:
   mongodb_data:
 
-# ============ Custom Network ============
 networks:
   mean-network:
     driver: bridge
