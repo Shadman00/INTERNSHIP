@@ -1,9 +1,8 @@
 version: "3.8"
 
 services:
-  # ============ MongoDB Database ============
   mongodb:
-    image: mongo:4.4
+    image: mongo:4.4.18
     container_name: mongodb
     restart: always
     ports:
@@ -16,9 +15,7 @@ services:
       - mongodb_data:/data/db
     networks:
       - mean-network
-    command: mongod --auth
 
-  # ============ Backend API ============
   backend:
     build:
       context: ./backend
@@ -36,7 +33,6 @@ services:
     networks:
       - mean-network
 
-  # ============ Frontend ============
   frontend:
     build:
       context: ./frontend
