@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  # ============ MongoDB Database ============
+  # ---------- MongoDB ----------
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -16,9 +16,8 @@ services:
       - mongodb_data:/data/db
     networks:
       - mean-network
-    command: mongod --auth
 
-  # ============ Backend API ============
+  # ---------- Backend ----------
   backend:
     build:
       context: ./backend
@@ -30,16 +29,13 @@ services:
     environment:
       - MONGODB_URI=mongodb://admin:password123@mongodb:27017/meandb?authSource=admin
       - PORT=8080
-      - NODE_ENV=development
+      - NODE_ENV=production
     depends_on:
       - mongodb
     networks:
       - mean-network
-    volumes:
-      - ./backend:/app # Mount local backend files
-    command: nodemon --legacy-watch server.js # watch mode
 
-  # ============ Frontend ============
+  # ---------- Frontend ----------
   frontend:
     build:
       context: ./frontend
@@ -47,14 +43,11 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - "80:80" # Angular dev server
+      - "80:80"
     depends_on:
       - backend
     networks:
       - mean-network
-    volumes:
-      - ./frontend:/app # Mount local frontend files
-    command: ng serve --host 0.0.0.0 --poll 2000 # watch mode
 
 volumes:
   mongodb_data:
