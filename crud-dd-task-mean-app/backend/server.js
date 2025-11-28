@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose"); // ← ADD THIS LINE!
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 
 const app = express();
 
