@@ -22,10 +22,10 @@ services:
     container_name: backend
     restart: always
     ports:
-      - "8080:8080"
+      - "8080:8080" # matches server.js
     environment:
       - MONGODB_URI=mongodb://admin:password123@mongodb:27017/meandb?authSource=admin
-      - PORT=8080
+      - PORT=5000
       - NODE_ENV=production
     depends_on:
       - mongodb

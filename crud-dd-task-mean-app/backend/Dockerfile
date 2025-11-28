@@ -1,10 +1,9 @@
-FROM node:18-alpine
+# Use Node LTS (alpine is lightweight)
+FROM node:latest-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
-
-# Use npm ci --omit=dev instead of npm install --production
 RUN npm ci --omit=dev
 
 COPY . .

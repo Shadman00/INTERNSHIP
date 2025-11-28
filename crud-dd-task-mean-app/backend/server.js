@@ -9,16 +9,17 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models");
-db.mongoose
-  .connect(db.url, {
+const dbConfig = require("./app/config/db.config.js");
+
+mongoose
+  .connect(dbConfig.url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => {
     console.log("Connected to the database!");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
