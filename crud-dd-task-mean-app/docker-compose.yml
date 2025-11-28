@@ -47,7 +47,7 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - "4200:4200" # Angular dev server
+      - "80:80" # Angular dev server
     depends_on:
       - backend
     networks:

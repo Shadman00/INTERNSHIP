@@ -1,8 +1,8 @@
-# Use Node.js 18 Alpine
-FROM node:18-alpine
-
-# Set working directory
+FROM node:18-alpine AS builder
 WORKDIR /app
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli
 
 # Copy package files and install dependencies
 COPY package*.json ./
@@ -11,8 +11,13 @@ RUN npm install
 # Copy all source code
 COPY . .
 
-# Expose Angular dev server port
-EXPOSE 4200
+# Build Angular app in production mode
+RUN ng build --prod
 
-# Run Angular in development/watch mode
-CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist/angular-15-crud /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
