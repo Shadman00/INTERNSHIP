@@ -1,9 +1,10 @@
-# Use Node LTS (alpine is lightweight)
-FROM node:latest-alpine
+# Use Node.js 18 Alpine (latest-alpine doesn't exist)
+FROM node:18-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
+
 RUN npm ci --omit=dev
 
 COPY . .

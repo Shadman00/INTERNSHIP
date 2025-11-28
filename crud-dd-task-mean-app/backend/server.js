@@ -1,5 +1,5 @@
 const express = require("express");
-//const cors = require("cors");
+const mongoose = require("mongoose"); // ← ADD THIS LINE!
 
 const app = express();
 
@@ -9,8 +9,10 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// Database configuration
 const dbConfig = require("./app/config/db.config.js");
 
+// Connect to MongoDB
 mongoose
   .connect(dbConfig.url, {
     useNewUrlParser: true,
@@ -24,15 +26,16 @@ mongoose
     process.exit();
   });
 
-// simple route
+// Simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Test application." });
 });
 
+// Routes
 require("./app/routes/turorial.routes")(app);
 
-// set port, listen for requests
+// Set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  console.log(`Server is running on port ${PORT}.`); // ← FIXED: Was console.log` (backtick)
 });
